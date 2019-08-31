@@ -1,0 +1,10 @@
+apiVersion: skaffold/v1beta13
+kind: Config
+build:
+  artifacts:
+  - image: node-hello-world
+    context: minikube
+deploy:
+  kubectl:
+    manifests:
+    - deployments.yml
