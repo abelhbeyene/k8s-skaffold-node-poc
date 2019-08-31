@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "node-chart.fullname" . }}
+spec:
+  replicas: 1
+  # strategy:
+  #   type: Recreate
+  selector:
+    matchLabels:
+      app: {{ include "node-chart.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "node-chart.fullname" . }}
+    spec:
+      containers:
+      - image: node-hello-world
+        name: {{ include "node-chart.fullname" . }}
+        ports:
+          - containerPort: 3000
+        imagePullPolicy: "Never"
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "node-chart.fullname" . }}
+spec:
+  ports:
+  - port: 3000
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    app: {{ include "node-chart.fullname" . }}
+  type: LoadBalancer
